@@ -26,7 +26,7 @@ Dự án được tổ chức thành các thư mục chính:
 
 ### 2. Thiết lập Database (Rất quan trọng)
 1. Mở SSMS, tạo một database mới tên là `CalendarDB`.
-2. Mở file script SQL của nhóm (hoặc xin trưởng nhóm đoạn mã tạo bảng) và nhấn **Execute (F5)** để tạo bảng.
+2. Mở file script SQL của nhóm (nằm trong phần main) và nhấn **Execute (F5)** để tạo bảng.
 3. Đảm bảo bạn có đủ 4 bảng: `Users`, `Appointments`, `Reminders`, `GroupParticipants`.
 
 ### 3. Cấu hình Project trong Visual Studio
