@@ -34,5 +34,14 @@ namespace CalenderApp
         {
             this.Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (var fullAppointmentForm = new FullAppointmentListForm())
+            {
+                fullAppointmentForm.ShowDialog();
+            }
+            this.Close();
+        }
     }
 }

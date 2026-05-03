@@ -47,8 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\AppointmentBLL.cs" />
+    <Compile Include="DAL\AppointmentDAL.cs" />
     <Compile Include="BLL\AppointmentService.cs" />
     <Compile Include="DAL\AppointmentRepository.cs" />
+    <Compile Include="DTO\AppointmentDTO.cs" />
     <Compile Include="DTO\DataClasses1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -59,6 +62,18 @@
     </Compile>
     <Compile Include="VIEW\AppointmentDetailForm.Designer.cs">
       <DependentUpon>AppointmentDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\FullAppointmentDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\FullAppointmentDetailForm.Designer.cs">
+      <DependentUpon>FullAppointmentDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\FullAppointmentListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\FullAppointmentListForm.Designer.cs">
+      <DependentUpon>FullAppointmentListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="VIEW\MainForm.cs">
       <SubType>Form</SubType>
@@ -79,6 +94,12 @@
     </Compile>
     <EmbeddedResource Include="VIEW\AppointmentDetailForm.resx">
       <DependentUpon>AppointmentDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\FullAppointmentDetailForm.resx">
+      <DependentUpon>FullAppointmentDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\FullAppointmentListForm.resx">
+      <DependentUpon>FullAppointmentListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
