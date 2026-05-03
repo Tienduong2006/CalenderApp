@@ -47,8 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLL\AppointmentService.cs" />
-    <Compile Include="DAL\AppointmentRepository.cs" />
+    <Compile Include="BLL\AppointmentBLL.cs" />
+    <Compile Include="DAL\AppointmentDAL.cs" />
+    <Compile Include="DTO\AppointmentDTO.cs" />
     <Compile Include="DTO\DataClasses1.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -60,11 +61,17 @@
     <Compile Include="VIEW\AppointmentDetailForm.Designer.cs">
       <DependentUpon>AppointmentDetailForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="VIEW\MainForm.cs">
+    <Compile Include="VIEW\AppointmentListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VIEW\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="VIEW\AppointmentListForm.Designer.cs">
+      <DependentUpon>AppointmentListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,8 +87,8 @@
     <EmbeddedResource Include="VIEW\AppointmentDetailForm.resx">
       <DependentUpon>AppointmentDetailForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VIEW\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="VIEW\AppointmentListForm.resx">
+      <DependentUpon>AppointmentListForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DTO\DataClasses1.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
