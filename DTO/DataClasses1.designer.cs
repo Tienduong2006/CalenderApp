@@ -45,7 +45,7 @@ namespace CalenderApp.DTO
     #endregion
 		
 		public DataClasses1DataContext() : 
-				base(global::CalenderApp.Properties.Settings.Default.CalendarDBConnectionString1, mappingSource)
+				base(global::CalenderApp.Properties.Settings.Default.CalendarDBConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
