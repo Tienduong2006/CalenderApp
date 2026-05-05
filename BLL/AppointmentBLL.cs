@@ -1,4 +1,5 @@
 ﻿using CalenderApp.DAL;
+using CalenderApp.DTO; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,23 +16,29 @@ namespace CalenderApp.BLL
         {
             return dal.GetAllAppointments();
         }
+
         public void UpdateAppointment(int id, string title, string location)
         {
             dal.UpdateAppointment(id, title, location);
         }
+
         public void DeleteAppointment(int id)
         {
             dal.DeleteAppointment(id);
         }
+
         public dynamic GetAppointmentDetail(int id)
         {
-            dal.EnsureParticipants(id);
             return dal.GetAppointmentDetail(id);
         }
 
         public dynamic GetParticipants(int eventId)
         {
             return dal.GetParticipants(eventId);
+        }
+        public void SaveAllParticipants(int appointmentId, List<ParticipantDTO> finalList)
+        {
+            dal.SaveAllParticipants(appointmentId, finalList);
         }
     }
 }

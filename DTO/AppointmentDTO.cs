@@ -16,4 +16,12 @@ namespace CalenderApp.DTO
         public string EndHour { get; set; }
         public string Type { get; set; }
     }
+
+    public class ParticipantDTO
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public bool Xoa { get; set; }
+    }
 }
