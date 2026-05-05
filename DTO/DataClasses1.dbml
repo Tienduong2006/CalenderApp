@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database Name="CalendarDB" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=CalendarDB;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="CalenderApp.Properties.Settings" SettingsPropertyName="CalendarDBConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=laptop-egv17skk\mssqlserver01;Initial Catalog=CalendarDB;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="CalenderApp.Properties.Settings" SettingsPropertyName="CalendarDBConnectionString1" Provider="System.Data.SqlClient" />
+  
   <Table Name="dbo.Appointments" Member="Appointments">
     <Type Name="Appointment">
       <Column Name="AppointmentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -10,11 +11,12 @@
       <Column Name="StartTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="EndTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="IsGroupMeeting" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="Appointment_GroupParticipant" Member="GroupParticipants" ThisKey="AppointmentID" OtherKey="AppointmentID" Type="GroupParticipant" />
+      <Association Name="Appointment_GroupParticipant" Member="Participants" ThisKey="AppointmentID" OtherKey="AppointmentID" Type="GroupParticipant" />
       <Association Name="Appointment_Reminder" Member="Reminders" ThisKey="AppointmentID" OtherKey="AppointmentID" Type="Reminder" />
       <Association Name="User_Appointment" Member="User" ThisKey="OwnerID" OtherKey="UserID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
+
   <Table Name="dbo.GroupParticipants" Member="GroupParticipants">
     <Type Name="GroupParticipant">
       <Column Name="AppointmentID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -23,6 +25,7 @@
       <Association Name="User_GroupParticipant" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
+
   <Table Name="dbo.Reminders" Member="Reminders">
     <Type Name="Reminder">
       <Column Name="ReminderID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -31,13 +34,14 @@
       <Association Name="Appointment_Reminder" Member="Appointment" ThisKey="AppointmentID" OtherKey="AppointmentID" Type="Appointment" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
+
   <Table Name="dbo.Users" Member="Users">
     <Type Name="User">
       <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="UserName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="Email" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Association Name="User_Appointment" Member="Appointments" ThisKey="UserID" OtherKey="OwnerID" Type="Appointment" />
-      <Association Name="User_GroupParticipant" Member="GroupParticipants" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="User_GroupParticipant" Member="UserParticipants" ThisKey="UserID" OtherKey="UserID" Type="GroupParticipant" />
     </Type>
   </Table>
 </Database>

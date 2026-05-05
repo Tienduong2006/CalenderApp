@@ -14,10 +14,23 @@ namespace CalenderApp.VIEW
     public partial class FullAppointmentListForm : Form
     {
         AppointmentBLL bll = new AppointmentBLL();
+
+        // Cắm cờ theo dõi: Mặc định là chưa có thay đổi nào
+        private bool coThayDoi = false;
+
         public FullAppointmentListForm()
         {
             InitializeComponent();
+
+            // Lắng nghe sự kiện: Hễ người dùng sửa giá trị ô nào là tự động bật cờ
+            dgvAppointments.CellValueChanged += DgvAppointments_CellValueChanged;
         }
+
+        private void DgvAppointments_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            coThayDoi = true;
+        }
+
         private void LoadData()
         {
             // Đổ dữ liệu vào bảng
@@ -38,6 +51,9 @@ namespace CalenderApp.VIEW
             dgvAppointments.Columns["Type"].ReadOnly = true;
             dgvAppointments.Columns["Title"].ReadOnly = false;
             dgvAppointments.Columns["Location"].ReadOnly = false;
+
+            // Đã tải xong dữ liệu mới, đặt lại cờ thay đổi về false
+            coThayDoi = false;
         }
 
         private void FullAppointmentListForm_Load(object sender, EventArgs e)
@@ -45,24 +61,75 @@ namespace CalenderApp.VIEW
             LoadData();
         }
 
-        private void btnLuuThayDoi_Click(object sender, EventArgs e)
+        // --- Tách logic Lưu ra thành hàm riêng để tái sử dụng ---
+        private bool ThucHienLuu()
         {
             try
             {
+                // Chốt dữ liệu ô đang gõ dở
+                dgvAppointments.EndEdit();
+
                 foreach (DataGridViewRow row in dgvAppointments.Rows)
                 {
                     if (row.IsNewRow) continue;
                     int id = Convert.ToInt32(row.Cells["ID"].Value);
                     string title = row.Cells["Title"].Value?.ToString() ?? "";
                     string location = row.Cells["Location"].Value?.ToString() ?? "";
+
                     bll.UpdateAppointment(id, title, location);
                 }
-                MessageBox.Show("Đã lưu toàn bộ thay đổi thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadData(); 
+
+                // Lưu xong thì hạ cờ xuống
+                coThayDoi = false;
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Có lỗi khi lưu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        private void btnLuuThayDoi_Click(object sender, EventArgs e)
+        {
+            // Nếu lưu thành công thì báo cáo và tải lại bảng
+            if (ThucHienLuu())
+            {
+                MessageBox.Show("Đã lưu toàn bộ thay đổi thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadData();
+            }
+        }
+
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            // Chốt dữ liệu nếu người dùng đang gõ dở 1 ô mà chưa kịp click chuột ra ngoài
+            dgvAppointments.EndEdit();
+
+            // Kiểm tra lá cờ
+            if (coThayDoi)
+            {
+                DialogResult result = MessageBox.Show("Có dữ liệu được thay đổi, bạn có muốn lưu không?", "Cảnh báo chưa lưu", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Chọn YES: Lưu xong rồi mới làm mới
+                    if (ThucHienLuu())
+                    {
+                        MessageBox.Show("Đã lưu dữ liệu trước khi làm mới!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData();
+                    }
+                }
+                else if (result == DialogResult.No)
+                {
+                    // Chọn NO: Kệ dữ liệu cũ, làm mới luôn
+                    LoadData();
+                }
+                // Nếu chọn CANCEL thì form đứng im không làm gì cả
+            }
+            else
+            {
+                // Nếu không có thay đổi gì thì cứ vô tư làm mới thôi
+                LoadData();
             }
         }
 
@@ -79,9 +146,9 @@ namespace CalenderApp.VIEW
 
                 if (result == DialogResult.Yes)
                 {
-                    bll.DeleteAppointment(eventId); 
+                    bll.DeleteAppointment(eventId);
                     MessageBox.Show("Đã xóa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadData(); 
+                    LoadData();
                 }
             }
             else
@@ -104,11 +171,6 @@ namespace CalenderApp.VIEW
             {
                 MessageBox.Show("Vui lòng chọn một sự kiện để xem chi tiết!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        }
-
-        private void btnLamMoi_Click(object sender, EventArgs e)
-        {
-            LoadData();
         }
     }
 }
