@@ -58,7 +58,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(84, 114);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(118, 23);
+            this.label2.Size = new System.Drawing.Size(166, 23);
             this.label2.TabIndex = 1;
             this.label2.Text = "Tên Sự Kiện";
             this.label2.Click += new System.EventHandler(this.label2_Click);
@@ -84,7 +84,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(84, 171);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(118, 23);
+            this.label3.Size = new System.Drawing.Size(173, 23);
             this.label3.TabIndex = 4;
             this.label3.Text = "Vị Trí";
             // 
@@ -100,7 +100,7 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(84, 224);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(162, 23);
+            this.label4.Size = new System.Drawing.Size(185, 23);
             this.label4.TabIndex = 6;
             this.label4.Text = "Thời Gian bắt đầu";
             // 
@@ -109,7 +109,7 @@
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(427, 224);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(176, 23);
+            this.label5.Size = new System.Drawing.Size(188, 23);
             this.label5.TabIndex = 8;
             this.label5.Text = "Thời Gian kết thúc";
             // 
@@ -159,7 +159,7 @@
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(177, 384);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 30);
+            this.button1.Size = new System.Drawing.Size(125, 30);
             this.button1.TabIndex = 12;
             this.button1.Text = "Xác Nhận";
             this.button1.UseVisualStyleBackColor = true;
@@ -169,7 +169,7 @@
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.Location = new System.Drawing.Point(335, 384);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(105, 30);
+            this.button2.Size = new System.Drawing.Size(110, 30);
             this.button2.TabIndex = 13;
             this.button2.Text = "Hủy Bỏ ";
             this.button2.UseVisualStyleBackColor = true;

@@ -1,42 +1,78 @@
-﻿using CalenderApp.BLL;
+﻿using CalenderApp.DTO;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CalenderApp.VIEW
 {
     public partial class FullAppointmentDetailForm : Form
     {
-        AppointmentBLL bll = new AppointmentBLL();
-        private int currentEventId;
-        public FullAppointmentDetailForm(int eventId)
+        private int _appointmentId;
+
+        public FullAppointmentDetailForm()
         {
-            InitializeComponent(); 
-            currentEventId = eventId;
+            InitializeComponent();
         }
+
+        public FullAppointmentDetailForm(int appointmentId)
+        {
+            InitializeComponent();
+            _appointmentId = appointmentId;
+        }
+
         private void FullAppointmentDetailForm_Load(object sender, EventArgs e)
         {
-            var detail = bll.GetAppointmentDetail(currentEventId);
-            if (detail != null)
-            {
-            
-                lblTenSuKien.Text = detail.Name;
-                lblViTri.Text = detail.Location;
-                lblNgay.Text = detail.StartTime.ToString("dd/MM/yyyy");
+            LoadDuLieuSuKien();
+        }
 
-                lblBatDau.Text = detail.StartTime.ToString("h:mm tt");
-                lblKetThuc.Text = detail.EndTime.ToString("h:mm tt");
+        private void LoadDuLieuSuKien()
+        {
+            DataClasses1DataContext db = new DataClasses1DataContext();
+
+            var appt = db.Appointments.FirstOrDefault(a => a.AppointmentID == _appointmentId);
+            if (appt == null) return;
+
+            lblTenSuKien.Text = appt.Name;
+            lblViTri.Text = appt.Location;
+            lblNgay.Text = appt.StartTime.ToString("dd/MM/yyyy");
+            lblBatDau.Text = appt.StartTime.ToString("HH 'giờ'");
+            lblKetThuc.Text = appt.EndTime.ToString("HH 'giờ'");
+
+            lstDanhSachNhac.Clear();
+            var dsNhac = db.Reminders.Where(r => r.AppointmentID == _appointmentId).ToList();
+
+            if (dsNhac.Count > 0)
+            {
+                foreach (var r in dsNhac)
+                {
+                    string hienThi = "";
+                    if (r.MinutesBefore == 15)
+                        hienThi = "Nhắc trước 15 phút";
+                    else if (r.MinutesBefore == 1440)
+                        hienThi = "Nhắc trước 1 ngày";
+                    else
+                        hienThi = "Nhắc trước " + r.MinutesBefore + " phút";
+
+                    lstDanhSachNhac.AppendText(hienThi + Environment.NewLine);
+                }
+            }
+            else
+            {
+                lstDanhSachNhac.AppendText("(Không có nhắc nhở)");
             }
 
-            var participants = bll.GetParticipants(currentEventId);
-            dgvNguoiThamGia.DataSource = participants;
+            var dsNguoiThamGia = from p in db.GroupParticipants
+                                 join u in db.Users on p.UserID equals u.UserID
+                                 where p.AppointmentID == _appointmentId
+                                 select new
+                                 {
+                                     ID = u.UserID,
+                                     Name = u.UserName,
+                                     Email = u.Email
+                                 };
+
+            dgvNguoiThamGia.DataSource = dsNguoiThamGia.ToList();
         }
 
         private void button1_Click(object sender, EventArgs e)
