@@ -20,10 +20,8 @@ namespace CalenderApp
 
         private void btnThemCuocHen_Click(object sender, EventArgs e)
         {
-            // Lấy ra cái ngày mà người dùng đang click đậm lên ở MonthCalendar
             DateTime ngayDuocChon = monthCalendar1.SelectionStart;
 
-            // Mở form Detail và ném cái ngày đó sang
             using (var detailForm = new AppointmentDetailForm(ngayDuocChon))
             {
                 detailForm.ShowDialog();
@@ -41,7 +39,6 @@ namespace CalenderApp
             {
                 fullAppointmentForm.ShowDialog();
             }
-            this.Close();
         }
     }
 }

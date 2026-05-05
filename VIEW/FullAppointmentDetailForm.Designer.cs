@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lstDanhSachNhac = new System.Windows.Forms.TextBox();
             this.lblKetThuc = new System.Windows.Forms.Label();
             this.lblBatDau = new System.Windows.Forms.Label();
             this.lblNgay = new System.Windows.Forms.Label();
@@ -49,6 +51,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.lstDanhSachNhac);
             this.groupBox1.Controls.Add(this.lblKetThuc);
             this.groupBox1.Controls.Add(this.lblBatDau);
             this.groupBox1.Controls.Add(this.lblNgay);
@@ -64,6 +68,26 @@
             this.groupBox1.Size = new System.Drawing.Size(628, 244);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold);
+            this.label7.Location = new System.Drawing.Point(431, 42);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(90, 19);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Nhắc Nhở :";
+            // 
+            // lstDanhSachNhac
+            // 
+            this.lstDanhSachNhac.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lstDanhSachNhac.Location = new System.Drawing.Point(434, 81);
+            this.lstDanhSachNhac.Multiline = true;
+            this.lstDanhSachNhac.Name = "lstDanhSachNhac";
+            this.lstDanhSachNhac.ReadOnly = true;
+            this.lstDanhSachNhac.Size = new System.Drawing.Size(162, 126);
+            this.lstDanhSachNhac.TabIndex = 10;
             // 
             // lblKetThuc
             // 
@@ -187,7 +211,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(362, 524);
+            this.button1.Location = new System.Drawing.Point(352, 508);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(83, 41);
             this.button1.TabIndex = 2;
@@ -231,5 +255,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgvNguoiThamGia;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox lstDanhSachNhac;
+        private System.Windows.Forms.Label label7;
     }
 }

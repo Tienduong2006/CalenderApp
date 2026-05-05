@@ -1,153 +1,139 @@
-﻿using CalenderApp.BLL;
-using CalenderApp.DTO;
+﻿using CalenderApp.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace CalenderApp.VIEW
 {
     public partial class AppointmentDetailForm : Form
     {
-        AppointmentBLL bll = new AppointmentBLL();
-        private int currentEventId;
-        public AppointmentDetailForm(int eventId)
+        private readonly DateTime _selectedDate;
+
+        public AppointmentDetailForm()
         {
-            InitializeComponent(); 
-            currentEventId = eventId;
-        }
-        BindingList<ParticipantDTO> danhSachTam = new BindingList<ParticipantDTO>(); 
-        List<ParticipantDTO> danhSachGoc = new List<ParticipantDTO>();
-        private void AppointmentDetailForm_Load_1(object sender, EventArgs e)
-        {
-            var detail = bll.GetAppointmentDetail(currentEventId);
-            if (detail != null)
-            {
-                lblTenSuKien.Text = detail.Name;
-                lblViTri.Text = detail.Location;
-                lblNgay.Text = detail.StartTime.ToString("dd/MM/yyyy");
-                lblBatDau.Text = detail.StartTime.ToString("h:mm tt");
-                lblKetThuc.Text = detail.EndTime.ToString("h:mm tt");
-            }
-
-            dgvNguoiThamGia.AllowUserToAddRows = true;
-
-            danhSachTam.Clear();
-            danhSachGoc.Clear(); 
-
-            var participants = bll.GetParticipants(currentEventId);
-            if (participants != null)
-            {
-                foreach (var p in participants)
-                {
-                    danhSachTam.Add(new ParticipantDTO { ID = p.ID, Name = p.Name, Email = p.Email, Xoa = false });
-                    danhSachGoc.Add(new ParticipantDTO { ID = p.ID, Name = p.Name, Email = p.Email, Xoa = false });
-                }
-            }
-            dgvNguoiThamGia.DataSource = danhSachTam;
-        }
-        private bool KiemTraCoThayDoi()
-        {
-            dgvNguoiThamGia.EndEdit();
-            var danhSachHienTai = danhSachTam.Where(x => !string.IsNullOrWhiteSpace(x.Name) || !string.IsNullOrWhiteSpace(x.Email)).ToList();
-            if (danhSachHienTai.Count != danhSachGoc.Count)
-            {
-                return true;
-            }
-
-            foreach (var item in danhSachHienTai)
-            {
-                if (item.Xoa == true) return true;
-
-                var nguoiGoc = danhSachGoc.FirstOrDefault(g => g.ID == item.ID);
-
-                if (nguoiGoc == null) return true;
-
-                if (item.Name != nguoiGoc.Name || item.Email != nguoiGoc.Email)
-                {
-                    return true; 
-                }
-            }
-
-            return false;
+            InitializeComponent();
         }
 
-        private bool ThucHienLuu()
+        public AppointmentDetailForm(DateTime selectedDate)
         {
-            dgvNguoiThamGia.EndEdit(); 
+            InitializeComponent();
+            _selectedDate = selectedDate.Date;
+            dateTimePicker1.Value = _selectedDate;
+            dateTimePicker2.Value = _selectedDate.AddHours(1);
+            radioButton1.Checked = true;
+            button1.Click += button1_Click;
+            button2.Click += button2_Click;
+        }
 
-            bool coNguoiBiXoa = danhSachTam.Any(x => x.Xoa == true);
+        private void label2_Click(object sender, EventArgs e)
+        {
+        }
 
-            if (coNguoiBiXoa)
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string name = textBox1.Text.Trim();
+            string location = textBox2.Text.Trim();
+
+            int startHour = dateTimePicker1.Value.Hour;
+            int endHour = dateTimePicker2.Value.Hour;
+
+            bool isGroup = radioButton2.Checked;
+            DateTime date = _selectedDate;
+
+            int currentUserId = 1;
+
+            CalenderApp.BLL.MeetingLogic logic = new CalenderApp.BLL.MeetingLogic();
+
+            string error = logic.ValidateInput(name, location, startHour, endHour);
+            if (error != "")
             {
-                DialogResult xacNhanXoa = MessageBox.Show("Bạn có muốn xóa những người đã chọn không?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                if (xacNhanXoa == DialogResult.No)
+            Appointment existingMeeting;
+            int status = logic.CheckMeetingStatus(currentUserId, name, date, startHour, endHour, out existingMeeting);
+
+            if (status == 1)
+            {
+                if (existingMeeting != null && existingMeeting.Name.Trim().ToLower() == name.ToLower())
                 {
-                    return false; 
+                    MessageBox.Show("Cuộc họp đã tồn tại trong lịch rồi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show("Lịch hẹn đã trùng với lịch cũ của bạn, bạn có muốn thay thế không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (dr == DialogResult.No) return;
                 }
             }
+            else if (status == 2)
+            {
+                DialogResult dr = MessageBox.Show("Lịch hẹn này trùng với 1 group meeting, bạn có muốn tham gia không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dr == DialogResult.No) return;
+            }
+
+            List<int> reminderMinutes = new List<int>();
+            DialogResult drNhac = MessageBox.Show("Bạn có muốn thêm bộ nhắc?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (drNhac == DialogResult.Yes)
+            {
+                ReminderForm frm = new ReminderForm();
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    reminderMinutes.AddRange(frm.SelectedReminders);
+                }
+            }
+
+            logic.ProcessMeeting(currentUserId, name, location, date, startHour, endHour, isGroup, reminderMinutes, status, existingMeeting);
+
+            if (status == 1)
+                MessageBox.Show("Đã thay thế lịch hẹn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else if (status == 2)
+                MessageBox.Show("Đã tham gia nhóm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Đã thêm lịch hẹn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             try
             {
-                List<ParticipantDTO> danhSachChot = new List<ParticipantDTO>();
-                foreach (var item in danhSachTam)
-                {
-                    if (string.IsNullOrWhiteSpace(item.Name) && string.IsNullOrWhiteSpace(item.Email)) continue;
+                DataClasses1DataContext db = new DataClasses1DataContext();
 
-                    if (item.Xoa == false)
-                    {
-                        danhSachChot.Add(item);
-                    }
-                }
-                bll.SaveAllParticipants(currentEventId, danhSachChot);
-                return true; 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi lưu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (KiemTraCoThayDoi() == true)
-            {
-                DialogResult hoiLuu = MessageBox.Show("Có dữ liệu được thay đổi, bạn có muốn lưu không?", "Cảnh báo chưa lưu", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                var cuocHenVuaTao = db.Appointments
+                                      .Where(a => a.Name == name && a.StartTime.Date == date.Date)
+                                      .OrderByDescending(a => a.AppointmentID)
+                                      .FirstOrDefault();
 
-                if (hoiLuu == DialogResult.Yes)
+                if (cuocHenVuaTao != null)
                 {
-                    if (ThucHienLuu() == true)
-                    {
-                        MessageBox.Show("Đã lưu dữ liệu trước khi thoát!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
-                    }
-                }
-                else if (hoiLuu == DialogResult.No)
-                {
-                    this.Close();
+                    this.Hide();
+                    CalenderApp.VIEW.FullAppointmentListForm frmDanhSach = new CalenderApp.VIEW.FullAppointmentListForm();
+                    frmDanhSach.ShowDialog();
                 }
             }
-            else
+            catch (Exception)
             {
-                this.Close();
             }
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
-        private void btnLuuDanhSach_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            if (ThucHienLuu() == true)
-            {
-                MessageBox.Show("Đã lưu toàn bộ thay đổi thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                AppointmentDetailForm_Load_1(sender, e);
-            }
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

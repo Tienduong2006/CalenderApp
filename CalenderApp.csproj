@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\AppointmentBLL.cs" />
+    <Compile Include="BLL\MeetingLogic.cs" />
     <Compile Include="DAL\AppointmentDAL.cs" />
     <Compile Include="DTO\AppointmentDTO.cs" />
     <Compile Include="DTO\DataClasses1.designer.cs">
@@ -60,6 +61,15 @@
     </Compile>
     <Compile Include="VIEW\AppointmentDetailForm.Designer.cs">
       <DependentUpon>AppointmentDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\ReminderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\ReminderForm.Designer.cs">
+      <DependentUpon>ReminderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\FullAppointmentDetailForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="VIEW\AppointmentListForm.cs">
       <SubType>Form</SubType>
@@ -89,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\AppointmentListForm.resx">
       <DependentUpon>AppointmentListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\ReminderForm.resx">
+      <DependentUpon>ReminderForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DTO\DataClasses1.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
