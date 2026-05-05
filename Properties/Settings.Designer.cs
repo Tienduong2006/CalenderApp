@@ -33,5 +33,16 @@ namespace CalenderApp.Properties {
                 return ((string)(this["CalendarDBConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=CalendarDB;Integrated Security=True;TrustSe" +
+            "rverCertificate=True")]
+        public string CalendarDBConnectionString1 {
+            get {
+                return ((string)(this["CalendarDBConnectionString1"]));
+            }
+        }
     }
 }

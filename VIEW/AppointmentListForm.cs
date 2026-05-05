@@ -96,7 +96,8 @@ namespace CalenderApp.VIEW
             {
                 int eventId = Convert.ToInt32(dgvAppointments.CurrentRow.Cells["ID"].Value);
                 AppointmentDetailForm detailForm = new AppointmentDetailForm(eventId);
-                detailForm.ShowDialog(); 
+                detailForm.ShowDialog();
+                dgvAppointments.DataSource = bll.GetList();
             }
             else
             {

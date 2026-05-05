@@ -49,8 +49,6 @@
   <ItemGroup>
     <Compile Include="BLL\AppointmentBLL.cs" />
     <Compile Include="DAL\AppointmentDAL.cs" />
-    <Compile Include="BLL\AppointmentService.cs" />
-    <Compile Include="DAL\AppointmentRepository.cs" />
     <Compile Include="DTO\AppointmentDTO.cs" />
     <Compile Include="DTO\DataClasses1.designer.cs">
       <AutoGen>True</AutoGen>
@@ -63,23 +61,17 @@
     <Compile Include="VIEW\AppointmentDetailForm.Designer.cs">
       <DependentUpon>AppointmentDetailForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="VIEW\FullAppointmentDetailForm.cs">
+    <Compile Include="VIEW\AppointmentListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VIEW\FullAppointmentDetailForm.Designer.cs">
-      <DependentUpon>FullAppointmentDetailForm.cs</DependentUpon>
+    <Compile Include="VIEW\AppointmentListForm.Designer.cs">
+      <DependentUpon>AppointmentListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="VIEW\FullAppointmentListForm.cs">
+    <Compile Include="VIEW\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VIEW\FullAppointmentListForm.Designer.cs">
-      <DependentUpon>FullAppointmentListForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VIEW\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VIEW\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="VIEW\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,14 +87,8 @@
     <EmbeddedResource Include="VIEW\AppointmentDetailForm.resx">
       <DependentUpon>AppointmentDetailForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VIEW\FullAppointmentDetailForm.resx">
-      <DependentUpon>FullAppointmentDetailForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VIEW\FullAppointmentListForm.resx">
-      <DependentUpon>FullAppointmentListForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VIEW\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="VIEW\AppointmentListForm.resx">
+      <DependentUpon>AppointmentListForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DTO\DataClasses1.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
